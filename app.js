@@ -20,7 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/", function (req, res) {
-  res.render("home", { homeStartingConent: homeStartingContent });
+  res.render("home", {
+    homeStartingConent: homeStartingContent,
+    posts: posts,
+  });
 });
 app.get("/about", function (req, res) {
   res.render("about", { aboutConent: aboutContent });
@@ -37,8 +40,9 @@ app.post("/compose", function (req, res) {
     title: req.body.postTitle,
     content: req.body.postBody,
   };
-  posts.push(post);f
-  console.log(posts);
+  posts.push(post);
+  // console.log(posts[0].title);
+  // console.log(posts[0].content);
   res.redirect("/");
 });
 
