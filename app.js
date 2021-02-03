@@ -35,6 +35,7 @@ app.get("/contact", function (req, res) {
 app.get("/compose", function (req, res) {
   res.render("compose");
 });
+
 app.get("/posts/:postName", function (req, res) {
   const requestedName = _.lowerCase(req.params.postName);
 
@@ -42,9 +43,7 @@ app.get("/posts/:postName", function (req, res) {
     const actualTitle = _.lowerCase(post.title);
 
     if (requestedName === actualTitle) {
-      console.log("match found");
-    } else {
-      console.log("no match found");
+      res.render("post", { title: post.title, content: post.content });
     }
   });
 });
