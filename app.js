@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+var _ = require("lodash");
 
 const homeStartingContent =
   "Keeping a journal helps you create order when your world feels like it’s in chaos. You get to know yourself by revealing your most private fears, thoughts, and feelings. Look at your writing time as personal relaxation time. It's a time when you can de-stress and wind down. Write in a place that's relaxing and soothing, maybe with a cup of tea. Look forward to your journaling time. And know that you're doing something good for your mind and body.";
@@ -35,7 +36,17 @@ app.get("/compose", function (req, res) {
   res.render("compose");
 });
 app.get("/posts/:postName", function (req, res) {
-  console.log(req.params.postName);
+  const requestedName = _.lowerCase(req.params.postName);
+
+  posts.forEach(function (post) {
+    const actualTitle = _.lowerCase(post.title);
+
+    if (requestedName === actualTitle) {
+      console.log("match found");
+    } else {
+      console.log("no match found");
+    }
+  });
 });
 
 app.post("/compose", function (req, res) {
@@ -44,8 +55,7 @@ app.post("/compose", function (req, res) {
     content: req.body.postBody,
   };
   posts.push(post);
-  // console.log(posts[0].title);
-  // console.log(posts[0].content);
+
   res.redirect("/");
 });
 
